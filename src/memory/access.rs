@@ -1,15 +1,15 @@
 
 pub struct Memory {
-    pub buffer: [i32; 0x10000],
+    pub buffer: [u8; 0x10000],
 }
 
 
 impl Memory {
-    fn read(&self, address: u32) -> i32 {
+    pub fn read(&self, address: u16) -> u8 {
         self.buffer[address as usize]
     }
 
-    fn write(&mut self, address: u32, value: i32) {
+    pub fn write(&mut self, address: u16, value: u8) {
         self.buffer[address as usize] = value;
     }
 }

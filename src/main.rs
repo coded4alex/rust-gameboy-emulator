@@ -1,5 +1,6 @@
 pub mod memory;
 pub mod app;
+pub mod devices;
 
 use app::config::Config;
 use app::core::Application;
