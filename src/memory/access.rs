@@ -1,6 +1,6 @@
 
 pub struct Memory {
-    buffer: [i32; 0x10000],
+    pub buffer: [i32; 0x10000],
 }
 
 
@@ -11,6 +11,12 @@ impl Memory {
 
     fn write(&mut self, address: u32, value: i32) {
         self.buffer[address as usize] = value;
+    }
+}
+
+pub fn create_memory() -> Memory {
+    Memory {
+        buffer: [0; 0x10000],
     }
 }
 

@@ -1,0 +1,4 @@
+name: "RustBoy"
+version: "0.1.0"
+author: "Alex Thomas"
+description: "A Gameboy emulator written in Rust"
