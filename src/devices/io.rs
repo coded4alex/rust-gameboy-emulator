@@ -4,4 +4,6 @@ pub trait Device {
 
     fn check_changed(&self) -> bool;
     fn reset_changed(&mut self);
+
+    fn get_range(&self) -> (u16, u16);
 }

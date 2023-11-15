@@ -40,6 +40,10 @@ impl Device for Joypad {
     fn reset_changed(&mut self) {
         self.changed = false;
     }
+
+    fn get_range(&self) -> (u16, u16) {
+        (0xFF00, 0xFF00)
+    }
 }
 
 
