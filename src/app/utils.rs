@@ -1,0 +1,1 @@
+pub type DeviceResult<T> = Result<T, String>;

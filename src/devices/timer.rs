@@ -1,4 +1,5 @@
 use crate::devices::io::Device;
+use crate::app::utils::DeviceResult;
 
 pub struct Timer {
     // TODO: Implement timer fields
@@ -16,21 +17,23 @@ impl Timer {
 }
 
 impl Device for Timer {
-    fn read(&self, address: u16) -> u8 {
-        0
+    fn read(&self, addr: u16) -> DeviceResult<u8> {
+        Err(String::from("Unimplemented"))
     }
 
-    fn write(&mut self, address: u16, value: u8) {
+    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
+        Err(String::from("Unimplemented"))
     }
 
-    fn check_changed(&self) -> bool {
-        false
+    fn check_changed(&self) -> DeviceResult<bool> {
+        Err(String::from("Unimplemented"))
     }
 
-    fn reset_changed(&mut self) {
+    fn reset_changed(&mut self) -> DeviceResult<()> {
+        Err(String::from("Unimplemented"))
     }
 
     fn get_range(&self) -> (u16, u16) {
-        (0xFF05, 0xFF07)
+        (0xff04, 0xff07)
     }
 }

@@ -6,3 +6,4 @@ pub mod timer;
 pub mod interrupt_flag;
 pub mod sound_channel;
 pub mod wave_ram;
+pub mod sound_control;

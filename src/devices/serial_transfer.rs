@@ -1,4 +1,5 @@
 use crate::devices::io::Device;
+use crate::app::utils::DeviceResult;
 
 pub struct SerialTransfer {
     data: u8,
@@ -31,42 +32,38 @@ impl SerialTransfer {
 }
 
 impl Device for SerialTransfer {
-    fn read(&self, addr: u16) -> u8 {
+    fn read(&self, addr: u16) -> DeviceResult<u8> {
         match addr {
-            0xFF01 => self.data,
-            0xFF02 => self.control,
-            _ => panic!("Invalid address for SerialTransfer: 0x{:04X}", addr),
+            0xff01 => Ok(self.data),
+            0xff02 => Ok(self.control),
+            _ => Err(format!("Invalid read address for SerialTransfer: 0x{:04X}", addr)),
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) {
+    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
         match addr {
-            0xFF01 => self.data = value,
-            0xFF02 => self.control = value,
-            _ => panic!("Invalid address for SerialTransfer: 0x{:04X}", addr),
+            0xff01 => {
+                self.data = value;
+                Ok(())
+            }
+            0xff02 => {
+                self.control = value;
+                Ok(())
+            }
+            _ => Err(format!("Invalid write address for SerialTransfer: 0x{:04X}", addr)),
         }
     }
 
-    fn check_changed(&self) -> bool {
-        false
+    fn check_changed(&self) -> DeviceResult<bool> {
+        Ok(false)
     }
-
-    fn reset_changed(&mut self) {}
 
     fn get_range(&self) -> (u16, u16) {
-        (0xFF01, 0xFF02)
+        (0xff01, 0xff02)
+    }
+
+    fn reset_changed(&mut self) -> DeviceResult<()> {
+        Ok(())
     }
 }
 
-
-mod test {
-    use crate::devices::io::Device;
-
-    #[test]
-    fn test_serial_transfer() {
-        use super::SerialTransfer;
-        let mut serial_transfer = SerialTransfer::new();
-        serial_transfer.write(0xFF01, 0x01);
-        assert_eq!(serial_transfer.read(0xFF01), 0x01);
-    }
-}

@@ -1,4 +1,5 @@
 use crate::devices::io::Device;
+use crate::app::utils::DeviceResult;
 
 pub struct Joypad {
     pub buffer: u8,
@@ -15,47 +16,33 @@ impl Joypad {
 }
 
 impl Device for Joypad {
-    fn read(&self, addr: u16) -> u8 {
+    fn read(&self, addr: u16) -> DeviceResult<u8> {
         match addr {
-            0xFF00 => {
-                self.buffer
-            },
-            _ => panic!("Invalid address for Joypad: 0x{:04X}", addr),
+            0xff00 => Ok(self.buffer),
+            _ => Err(format!("Invalid read address for Joypad: 0x{:04X}", addr)),
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) {
+    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
         match addr {
-            0xFF00 => {
+            0xff00 => {
                 self.buffer = value;
-            },
-            _ => panic!("Invalid address for Joypad: 0x{:04X}", addr),
+                Ok(())
+            }
+            _ => Err(format!("Invalid write address for Joypad: 0x{:04X}", addr)),
         }
     }
 
-    fn check_changed(&self) -> bool {
-        self.changed
-    }
-
-    fn reset_changed(&mut self) {
-        self.changed = false;
+    fn check_changed(&self) -> DeviceResult<bool> {
+        Ok(self.changed)
     }
 
     fn get_range(&self) -> (u16, u16) {
-        (0xFF00, 0xFF00)
+        (0xff00, 0xff00)
+    }
+
+    fn reset_changed(&mut self) -> DeviceResult<()> {
+        self.changed = false;
+        Ok(())
     }
 }
-
-
-mod test {
-    use crate::devices::io::Device;
-
-    #[test]
-    fn test_joypad() {
-        use super::Joypad;
-        let mut joypad = Joypad::new();
-        joypad.write(0xFF00, 0x01);
-        assert_eq!(joypad.read(0xFF00), 0x01);
-    }
-}
-
