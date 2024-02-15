@@ -1,5 +1,5 @@
 use crate::devices::io::Device;
-use crate::app::utils::DeviceResult;
+use crate::app::utils::DataResult;
 
 pub struct Joypad {
     pub buffer: u8,
@@ -16,14 +16,14 @@ impl Joypad {
 }
 
 impl Device for Joypad {
-    fn read(&self, addr: u16) -> DeviceResult<u8> {
+    fn read(&self, addr: u16) -> DataResult<u8> {
         match addr {
             0xff00 => Ok(self.buffer),
             _ => Err(format!("Invalid read address for Joypad: 0x{:04X}", addr)),
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
+    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
         match addr {
             0xff00 => {
                 self.buffer = value;
@@ -33,7 +33,7 @@ impl Device for Joypad {
         }
     }
 
-    fn check_changed(&self) -> DeviceResult<bool> {
+    fn check_changed(&self) -> DataResult<bool> {
         Ok(self.changed)
     }
 
@@ -41,7 +41,7 @@ impl Device for Joypad {
         (0xff00, 0xff00)
     }
 
-    fn reset_changed(&mut self) -> DeviceResult<()> {
+    fn reset_changed(&mut self) -> DataResult<()> {
         self.changed = false;
         Ok(())
     }

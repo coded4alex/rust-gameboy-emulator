@@ -1,5 +1,5 @@
 use crate::devices::io::Device;
-use crate::app::utils::DeviceResult;
+use crate::app::utils::DataResult;
 
 pub struct Divider {
     counter: u8,
@@ -21,14 +21,14 @@ impl Divider {
 }
 
 impl Device for Divider {
-    fn read(&self, addr: u16) -> DeviceResult<u8> {
+    fn read(&self, addr: u16) -> DataResult<u8> {
         match addr {
             0xff04 => Ok(self.counter),
             _ => Err(format!("Invalid divider address: 0x{:04X}", addr)),
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
+    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
         match addr {
             0xff04 => {
                 self.counter = 0;
@@ -38,11 +38,11 @@ impl Device for Divider {
         }
     }
 
-    fn check_changed(&self) -> DeviceResult<bool> {
+    fn check_changed(&self) -> DataResult<bool> {
         Ok(false)
     }
 
-    fn reset_changed(&mut self) -> DeviceResult<()> {
+    fn reset_changed(&mut self) -> DataResult<()> {
         Ok(())
     }
 

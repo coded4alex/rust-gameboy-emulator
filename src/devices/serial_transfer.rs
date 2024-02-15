@@ -1,5 +1,5 @@
 use crate::devices::io::Device;
-use crate::app::utils::DeviceResult;
+use crate::app::utils::DataResult;
 
 pub struct SerialTransfer {
     data: u8,
@@ -32,7 +32,7 @@ impl SerialTransfer {
 }
 
 impl Device for SerialTransfer {
-    fn read(&self, addr: u16) -> DeviceResult<u8> {
+    fn read(&self, addr: u16) -> DataResult<u8> {
         match addr {
             0xff01 => Ok(self.data),
             0xff02 => Ok(self.control),
@@ -40,7 +40,7 @@ impl Device for SerialTransfer {
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
+    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
         match addr {
             0xff01 => {
                 self.data = value;
@@ -54,7 +54,7 @@ impl Device for SerialTransfer {
         }
     }
 
-    fn check_changed(&self) -> DeviceResult<bool> {
+    fn check_changed(&self) -> DataResult<bool> {
         Ok(false)
     }
 
@@ -62,7 +62,7 @@ impl Device for SerialTransfer {
         (0xff01, 0xff02)
     }
 
-    fn reset_changed(&mut self) -> DeviceResult<()> {
+    fn reset_changed(&mut self) -> DataResult<()> {
         Ok(())
     }
 }

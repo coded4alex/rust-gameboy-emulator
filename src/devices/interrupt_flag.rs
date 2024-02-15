@@ -1,5 +1,5 @@
 use crate::devices::io::Device;
-use crate::app::utils::DeviceResult;
+use crate::app::utils::DataResult;
 
 pub struct InterruptFlag {
     interrupt_enable: u8,
@@ -32,7 +32,7 @@ impl InterruptFlag {
 }
 
 impl Device for InterruptFlag {
-    fn read(&self, addr: u16) -> DeviceResult<u8> {
+    fn read(&self, addr: u16) -> DataResult<u8> {
         match addr {
             0xff0f => Ok(self.interrupt_flag),
             0xffff => Ok(self.interrupt_enable),
@@ -40,7 +40,7 @@ impl Device for InterruptFlag {
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
+    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
         match addr {
             0xff0f => {
                 self.interrupt_flag = value;
@@ -54,11 +54,11 @@ impl Device for InterruptFlag {
         }
     }
 
-    fn check_changed(&self) -> DeviceResult<bool> {
+    fn check_changed(&self) -> DataResult<bool> {
         Ok(false)
     }
 
-    fn reset_changed(&mut self) -> DeviceResult<()> {
+    fn reset_changed(&mut self) -> DataResult<()> {
         Ok(())
     }
 

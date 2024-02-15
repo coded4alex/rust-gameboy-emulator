@@ -18,11 +18,11 @@ impl Switcher{
         }
     }
 
-    fn get_current_bank(&self) -> u8 {
+    pub fn get_current_bank(&self) -> u8 {
         self.current
     }
 
-    fn set_current_bank(&mut self, bank: u8, mem: &mut Memory) {
+    pub fn set_current_bank(&mut self, bank: u8, mem: &mut Memory) {
         let size = self.upper - self.lower;
         
         for i in 0..size {            

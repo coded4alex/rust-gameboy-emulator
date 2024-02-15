@@ -1,5 +1,5 @@
 use crate::devices::io::Device;
-use crate::app::utils::DeviceResult;
+use crate::app::utils::DataResult;
 
 pub struct SoundControl {
     nr50: u8,
@@ -18,7 +18,7 @@ impl SoundControl {
 }
 
 impl Device for SoundControl {
-    fn read(&self, address: u16) -> DeviceResult<u8> {
+    fn read(&self, address: u16) -> DataResult<u8> {
         match address {
             0xFF24 => Ok(self.nr50),
             0xFF25 => Ok(self.nr51),
@@ -27,7 +27,7 @@ impl Device for SoundControl {
         }
     }
 
-    fn write(&mut self, address: u16, value: u8) -> DeviceResult<()> {
+    fn write(&mut self, address: u16, value: u8) -> DataResult<()> {
         match address {
             0xFF24 => {
                 self.nr50 = value;
@@ -45,11 +45,11 @@ impl Device for SoundControl {
         }
     }
 
-    fn check_changed(&self) -> DeviceResult<bool> {
+    fn check_changed(&self) -> DataResult<bool> {
         Ok(false)
     }
 
-    fn reset_changed(&mut self) -> DeviceResult<()> {
+    fn reset_changed(&mut self) -> DataResult<()> {
         Ok(())
     }
 

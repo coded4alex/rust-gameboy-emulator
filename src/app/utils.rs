@@ -1,1 +1,1 @@
-pub type DeviceResult<T> = Result<T, String>;
+pub type DataResult<T> = Result<T, String>;

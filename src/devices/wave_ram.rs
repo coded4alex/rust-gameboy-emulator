@@ -1,5 +1,5 @@
 use crate::devices::io::Device;
-use crate::app::utils::DeviceResult;
+use crate::app::utils::DataResult;
 
 const WAVE_RAM_SIZE: usize = 16;
 
@@ -22,20 +22,20 @@ impl WaveRam {
 }
 
 impl Device for WaveRam {
-    fn read(&self, addr: u16) -> DeviceResult<u8> {
+    fn read(&self, addr: u16) -> DataResult<u8> {
         Ok(self.read(addr))
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DeviceResult<()> {
+    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
         self.write(addr, value);
         Ok(())
     }
 
-    fn check_changed(&self) -> DeviceResult<bool> {
+    fn check_changed(&self) -> DataResult<bool> {
         Ok(false)
     }
 
-    fn reset_changed(&mut self) -> DeviceResult<()> {
+    fn reset_changed(&mut self) -> DataResult<()> {
         Ok(())
     }
 
