@@ -18,29 +18,16 @@ pub fn get_tile(tile_id: u8, tile_type: TileType, mem: &Memory) -> DataResult<Ti
         TileType::OBJ => get_obj(tile_id, mem),
         TileType::BG => get_bg_win(tile_id, mem, lcdc4),
         TileType::WIN => get_bg_win(tile_id, mem, lcdc4),
-        _ => Err("Invalid tile_type".to_string())
+        _ => Err("Invalid tile_type".to_string()),
     }
 }
 
 fn get_obj(tile_id: u8, mem: &Memory) -> DataResult<TileData> {
-    let mut tile_data = TileData {
-        tile_id: tile_id,
-        tile_data: [0; 8],
-    };
     let base_index = 0x8000 + tile_id as u16 * 16;
-
-    for i in 0..8 {
-        tile_data.tile_data[i] = merge_bytes(mem.read(base_index + (i * 2) as u16), mem.read(base_index + (i * 2 + 1) as u16));
-    }
-    Ok(tile_data)
+    extract_tile_data(mem, base_index, tile_id)
 }
 
 fn get_bg_win(tile_id: u8, mem: &Memory, lcdc4: u8) -> DataResult<TileData> {
-    let mut tile_data = TileData {
-        tile_id: tile_id,
-        tile_data: [0; 8],
-    };
-
     let base_index = match lcdc4 {
         1 => {
             if tile_id < 128 {
@@ -57,6 +44,14 @@ fn get_bg_win(tile_id: u8, mem: &Memory, lcdc4: u8) -> DataResult<TileData> {
             }
         }
         _ => return Err(format!("Invalid LCDC4 bit state {}", lcdc4)),
+    };
+    extract_tile_data(mem, base_index, tile_id)
+}
+
+fn extract_tile_data(mem: &Memory, base_index: u16, tile_id: u8) -> Result<TileData, String> {
+    let mut tile_data = TileData {
+        tile_id: tile_id,
+        tile_data: [0; 8],
     };
 
     for i in 0..8 {
