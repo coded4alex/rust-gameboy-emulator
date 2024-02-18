@@ -2,6 +2,7 @@ pub mod memory;
 pub mod app;
 pub mod devices;
 pub mod graphics;
+pub mod screen;
 
 use app::config::Config;
 use app::core::Application;

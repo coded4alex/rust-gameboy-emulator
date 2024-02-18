@@ -1,13 +1,14 @@
 use log::info;
-
 use crate::app::config::Config;
 
-use crate::memory::access::Memory;
 use crate::memory::access::create_memory;
+use crate::memory::access::Memory;
 
-use crate::memory::router::Bank;
 use crate::memory::router::create_banks;
 use crate::memory::router::init_banks;
+use crate::memory::router::Bank;
+use crate::screen::display::create_display;
+use crate::screen::display::Display;
 
 pub struct Application {
     pub name: String,
@@ -16,6 +17,7 @@ pub struct Application {
     pub description: String,
     pub memory: Memory,
     pub banks: Vec<Bank>,
+    pub display: Display,
 }
 
 impl Application {
@@ -28,6 +30,7 @@ impl Application {
 
             memory: create_memory(),
             banks: create_banks(),
+            display: create_display(),
         }
     }
 
@@ -41,6 +44,6 @@ impl Application {
 
     pub fn run(&mut self) {
         println!("{} v{} by {} ({})", self.name, self.version, self.author, self.description);
+        self.display.join();
     }
 }
-   
