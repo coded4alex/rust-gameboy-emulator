@@ -43,7 +43,7 @@ mod test {
         let mut switchable = Switcher::new(0x0000, 0x4000);
 
         switchable.set_current_bank(0x00, &mut mem);
-        mem.write(0x0000, 0x01);
+        mem.write(0x0000, 0x04);
         switchable.set_current_bank(0x01, &mut mem);
 
         mem.write(0x0000, 0x02);
@@ -51,6 +51,6 @@ mod test {
         assert_eq!(switchable.get_current_bank(), 0x01);
 
         switchable.set_current_bank(0x00, &mut mem);
-        assert_eq!(mem.read(0x0000), 0x01);
+        assert_eq!(mem.read(0x0000), 0x04);
     }
 }

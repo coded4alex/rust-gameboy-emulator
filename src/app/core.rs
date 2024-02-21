@@ -21,7 +21,7 @@ pub struct Application {
 }
 
 impl Application {
-    pub fn new(config: &Config) -> Application {
+    pub fn new(config: Config) -> Application {
         Application {
             name: config.name.clone(),
             version: config.version.clone(),
@@ -30,7 +30,7 @@ impl Application {
 
             memory: create_memory(),
             banks: create_banks(),
-            display: create_display(),
+            display: create_display(config.name.as_str()),
         }
     }
 
