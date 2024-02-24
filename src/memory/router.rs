@@ -1,6 +1,5 @@
 use super::switcher::Switcher;
 
-
 pub struct Bank {
     pub name: String,
     pub lower_bound: u16,
@@ -9,7 +8,6 @@ pub struct Bank {
     pub switcher: Option<Switcher>,
 }
 
-
 impl Bank {
     pub fn new(name: String, lower_bound: u16, upper_bound: u16, switcher: Option<Switcher>) -> Bank {
         Bank {
@@ -17,19 +15,16 @@ impl Bank {
             lower_bound,
             upper_bound,
             current: 0,
-            switcher
+            switcher,
         }
     }
 }
-
 
 pub fn create_banks() -> Vec<Bank> {
     Vec::new()
 }
 
-
 pub fn init_banks(banks: &mut Vec<Bank>) {
-
     let cartridge_switcher = Some(Switcher::new(0x4000, 0x8000));
     let video_switcher = Some(Switcher::new(0x8000, 0xA000));
     let external_ram_switcher = Some(Switcher::new(0xD000, 0xE000));
@@ -49,15 +44,14 @@ pub fn init_banks(banks: &mut Vec<Bank>) {
     banks.push(Bank::new("interrupt-enable-register".to_string(), 0xFFFF, 0xFFFF, None));
 }
 
-
 mod test {
 
     #[test]
     fn test_init_banks() {
-        use super::Bank;
         use super::init_banks;
+        use super::Bank;
         let mut banks: Vec<Bank> = Vec::new();
         init_banks(&mut banks);
-        assert_eq!(banks.len(), 12);}
-
+        assert_eq!(banks.len(), 12);
+    }
 }

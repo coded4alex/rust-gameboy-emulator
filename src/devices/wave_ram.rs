@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 const WAVE_RAM_SIZE: usize = 16;
 

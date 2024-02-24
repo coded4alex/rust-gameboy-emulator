@@ -1,6 +1,6 @@
 use std::fs;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_yaml;
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -10,7 +10,6 @@ pub struct Config {
     pub author: String,
     pub description: String,
 }
-
 
 impl Config {
     pub fn new(path: String) -> Config {

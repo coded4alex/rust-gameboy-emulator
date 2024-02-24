@@ -1,5 +1,5 @@
-use log::info;
 use crate::app::config::Config;
+use log::info;
 
 use crate::memory::access::create_memory;
 use crate::memory::access::Memory;

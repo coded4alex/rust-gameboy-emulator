@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 pub struct SoundControl {
     nr50: u8,
@@ -9,11 +9,7 @@ pub struct SoundControl {
 
 impl SoundControl {
     pub fn new() -> Self {
-        SoundControl {
-            nr50: 0,
-            nr51: 0,
-            nr52: 0,
-        }
+        SoundControl { nr50: 0, nr51: 0, nr52: 0 }
     }
 }
 

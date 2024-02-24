@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 pub struct SoundChannel {
     // TODO: Add fields for sound channel state

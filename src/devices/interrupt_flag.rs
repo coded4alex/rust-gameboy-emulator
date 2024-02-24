@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 pub struct InterruptFlag {
     interrupt_enable: u8,
@@ -66,4 +66,3 @@ impl Device for InterruptFlag {
         (0xff0f, 0xffff)
     }
 }
-

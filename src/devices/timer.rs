@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 pub struct Timer {
     // TODO: Implement timer fields

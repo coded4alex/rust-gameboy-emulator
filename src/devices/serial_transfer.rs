@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 pub struct SerialTransfer {
     data: u8,
@@ -8,10 +8,7 @@ pub struct SerialTransfer {
 
 impl SerialTransfer {
     pub fn new() -> Self {
-        Self {
-            data: 0,
-            control: 0,
-        }
+        Self { data: 0, control: 0 }
     }
 
     pub fn send_data(&mut self, data: u8) {
@@ -66,4 +63,3 @@ impl Device for SerialTransfer {
         Ok(())
     }
 }
-

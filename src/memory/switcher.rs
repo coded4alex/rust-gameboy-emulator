@@ -7,8 +7,7 @@ pub struct Switcher {
     lower: u16,
 }
 
-impl Switcher{
-
+impl Switcher {
     pub fn new(lower: u16, upper: u16) -> Switcher {
         Switcher {
             banks: vec![[0; 0x4000]; 256],
@@ -24,8 +23,8 @@ impl Switcher{
 
     pub fn set_current_bank(&mut self, bank: u8, mem: &mut Memory) {
         let size = self.upper - self.lower;
-        
-        for i in 0..size {            
+
+        for i in 0..size {
             self.banks[self.current as usize][i as usize] = mem.read(self.lower + i);
             mem.write(self.lower + i, self.banks[bank as usize][i as usize]);
         }

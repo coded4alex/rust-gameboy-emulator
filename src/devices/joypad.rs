@@ -1,5 +1,5 @@
-use crate::devices::io::Device;
 use crate::app::utils::DataResult;
+use crate::devices::io::Device;
 
 pub struct Joypad {
     pub buffer: u8,
@@ -8,10 +8,7 @@ pub struct Joypad {
 
 impl Joypad {
     pub fn new() -> Joypad {
-        Joypad {
-            buffer: 0,
-            changed: false,
-        }
+        Joypad { buffer: 0, changed: false }
     }
 }
 
