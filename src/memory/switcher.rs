@@ -33,12 +33,13 @@ impl Switcher {
 }
 
 mod test {
+    use crate::memory::access::Memory;
+
     use super::Switcher;
-    use crate::memory::access::create_memory;
 
     #[test]
     fn test_switchable() {
-        let mut mem = create_memory();
+        let mut mem = Memory::create();
         let mut switchable = Switcher::new(0x0000, 0x4000);
 
         switchable.set_current_bank(0x00, &mut mem);

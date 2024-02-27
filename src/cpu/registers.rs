@@ -30,18 +30,18 @@ pub enum RegisterNames {
 const UPPER_MASK: u16 = 0b0000000011111111;
 const LOWER_MASK: u16 = 0b1111111100000000;
 
-pub fn create_registers() -> Registers {
-    Registers {
-        af: 0,
-        bc: 0,
-        de: 0,
-        hl: 0,
-        sp: 0,
-        pc: 0,
-    }
-}
-
 impl Registers {
+    pub fn create() -> Registers {
+        Registers {
+            af: 0,
+            bc: 0,
+            de: 0,
+            hl: 0,
+            sp: 0,
+            pc: 0,
+        }
+    }
+
     pub fn get_register(&self, register: RegisterNames) -> DataResult<u16> {
         match register {
             RegisterNames::A => get_msb_8(self.af),
@@ -115,11 +115,13 @@ fn set_lsb_8(register_value: &mut u16, value: u16) -> DataResult<u16> {
 }
 
 mod test {
-    use super::{create_registers, RegisterNames};
+    use crate::cpu::registers::Registers;
+
+    use super::RegisterNames;
 
     #[test]
     fn test_registers() {
-        let mut registers = create_registers();
+        let mut registers = Registers::create();
         registers.set_register(RegisterNames::B, 1).unwrap();
         registers.set_register(RegisterNames::C, 4).unwrap();
         assert_eq!(registers.get_register(RegisterNames::B).unwrap(), 1);

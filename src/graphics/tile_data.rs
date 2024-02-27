@@ -72,10 +72,7 @@ fn merge_bytes(first_byte: u8, second_byte: u8) -> u16 {
 }
 
 mod test {
-    use crate::memory::{
-        self,
-        access::{create_memory, Memory},
-    };
+    use crate::memory::{self, access::Memory};
 
     use super::{get_tile, merge_bytes};
 
@@ -87,7 +84,7 @@ mod test {
 
     #[test]
     fn test_tile_retrieval_obj() {
-        let mut mem = create_memory();
+        let mut mem = Memory::create();
         mem.write(0x8000, 60);
         mem.write(0x8001, 126);
         mem.write(0x8800, 61);
@@ -102,7 +99,7 @@ mod test {
 
     #[test]
     fn test_file_retrievel_bg_win() {
-        let mut mem = create_memory();
+        let mut mem = Memory::create();
         mem.write(0x8800, 60);
         mem.write(0x8801, 126);
         mem.write(0x9000, 61);

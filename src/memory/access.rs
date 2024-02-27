@@ -3,6 +3,10 @@ pub struct Memory {
 }
 
 impl Memory {
+    pub fn create() -> Memory {
+        Memory { buffer: [0; 0x10000] }
+    }
+
     pub fn read(&self, address: u16) -> u8 {
         self.buffer[address as usize]
     }
@@ -12,15 +16,11 @@ impl Memory {
     }
 }
 
-pub fn create_memory() -> Memory {
-    Memory { buffer: [0; 0x10000] }
-}
-
 mod test {
     #[test]
     fn test_memory() {
         use super::Memory;
-        let mut mem = Memory { buffer: [0; 0x10000] };
+        let mut mem = Memory::create();
         mem.write(0x0000, 0x01);
         assert_eq!(mem.read(0x0000), 0x01);
     }
