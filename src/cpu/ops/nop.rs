@@ -1,28 +1,21 @@
+use crate::app::{gameboy::Gameboy, utils::DataResult};
+use crate::cpu::op::OperandStructure;
 use crate::cpu::registers::RegisterNames;
-use crate::{
-    app::{gameboy::Gameboy, utils::DataResult},
-    cpu::op::Op,
-};
 
-pub struct Nop {}
-
-impl Op for Nop {
-    fn execute(&self, gameboy: &mut Gameboy) -> DataResult<u8> {
-        let val = gameboy.registers.get_register(RegisterNames::PC)?;
-        gameboy.registers.set_register(RegisterNames::PC, val + 1)?;
-        Ok(1)
-    }
+fn nop_00(gameboy: &mut Gameboy, operands: OperandStructure) -> DataResult<u8> {
+    let val = gameboy.registers.get_register(RegisterNames::PC)?;
+    gameboy.registers.set_register(RegisterNames::PC, val + 1)?;
+    Ok(1)
 }
 
 mod test {
-    use super::Nop;
+    use super::nop_00;
     use crate::app::gameboy::Gameboy;
-    use crate::cpu::op::Op;
+    use crate::cpu::op::OperandStructure;
 
     #[test]
     fn test_nop() {
         let mut test_gameboy = Gameboy::create();
-        let nop = Nop {};
-        assert_eq!(nop.execute(&mut test_gameboy).unwrap(), 1)
+        assert_eq!(nop_00(&mut test_gameboy, OperandStructure::create()).unwrap(), 1)
     }
 }
