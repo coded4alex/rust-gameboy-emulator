@@ -1,15 +1,13 @@
 use crate::app::{gameboy::Gameboy, utils::DataResult};
 use crate::cpu::op::OperandStructure;
-use crate::cpu::registers::RegisterNames;
 
-fn nop_00(gameboy: &mut Gameboy, operands: OperandStructure) -> DataResult<u8> {
-    let val = gameboy.registers.get_register(RegisterNames::PC)?;
-    gameboy.registers.set_register(RegisterNames::PC, val + 1)?;
+fn nop_00(_gameboy: &mut Gameboy, _operands: OperandStructure) -> DataResult<u8> {
     Ok(1)
 }
 
+#[cfg(test)]
 mod test {
-    use super::nop_00;
+    use super::*;
     use crate::app::gameboy::Gameboy;
     use crate::cpu::op::OperandStructure;
 

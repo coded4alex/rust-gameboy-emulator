@@ -71,8 +71,9 @@ fn merge_bytes(first_byte: u8, second_byte: u8) -> u16 {
     result
 }
 
+#[cfg(test)]
 mod test {
-    use crate::memory::{self, access::Memory};
+    use crate::memory::access::Memory;
 
     use super::{get_tile, merge_bytes};
 

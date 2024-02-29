@@ -38,6 +38,7 @@ impl Application {
     }
 }
 
+#[cfg(test)]
 mod test {
     use crate::app::config::Config;
 

@@ -32,6 +32,7 @@ impl Switcher {
     }
 }
 
+#[cfg(test)]
 mod test {
     use crate::memory::access::Memory;
 

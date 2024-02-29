@@ -27,8 +27,24 @@ pub enum RegisterNames {
     PC,
 }
 
+pub enum RegisterFlags {
+    Z,
+    N,
+    H,
+    C,
+}
+
 const UPPER_MASK: u16 = 0b0000000011111111;
 const LOWER_MASK: u16 = 0b1111111100000000;
+
+fn get_flag_mask(flag: RegisterFlags) -> u16 {
+    match flag {
+        RegisterFlags::Z => 7,
+        RegisterFlags::N => 6,
+        RegisterFlags::H => 5,
+        RegisterFlags::C => 4,
+    }
+}
 
 impl Registers {
     pub fn create() -> Registers {
@@ -40,6 +56,21 @@ impl Registers {
             sp: 0,
             pc: 0,
         }
+    }
+
+    pub fn get_flag(&self, flag: RegisterFlags) -> u16 {
+        let mask = get_flag_mask(flag);
+        (self.af & (1 << mask)) >> mask
+    }
+
+    pub fn set_flag(&mut self, flag: RegisterFlags, value: u16) -> DataResult<u8> {
+        if value != 0 && value != 1 {
+            return Err("Invalid value for a flag".to_string());
+        }
+        let mask = get_flag_mask(flag);
+        let masked = self.af & !(1 << mask);
+        self.af = masked | (value << mask);
+        Ok(0)
     }
 
     pub fn get_register(&self, register: RegisterNames) -> DataResult<u16> {
@@ -62,7 +93,6 @@ impl Registers {
     }
 
     pub fn set_register(&mut self, register: RegisterNames, value: u16) -> DataResult<u16> {
-        let old_value = self.get_register(register.clone())?;
         match register {
             RegisterNames::A => set_msb_8(&mut self.af, value),
             RegisterNames::B => set_msb_8(&mut self.bc, value),
@@ -114,10 +144,9 @@ fn set_lsb_8(register_value: &mut u16, value: u16) -> DataResult<u16> {
     Ok(*register_value)
 }
 
+#[cfg(test)]
 mod test {
-    use crate::cpu::registers::Registers;
-
-    use super::RegisterNames;
+    use super::*;
 
     #[test]
     fn test_registers() {
@@ -128,5 +157,19 @@ mod test {
         assert_eq!(registers.get_register(RegisterNames::C).unwrap(), 4);
         assert_eq!(registers.get_register(RegisterNames::BC).unwrap(), 260);
         assert!(registers.get_register(RegisterNames::AF).is_err())
+    }
+
+    #[test]
+    fn test_flags() {
+        let mut registers = Registers::create();
+        registers.set_flag(RegisterFlags::C, 1).unwrap();
+        registers.set_flag(RegisterFlags::H, 1).unwrap();
+        registers.set_flag(RegisterFlags::N, 1).unwrap();
+        registers.set_flag(RegisterFlags::Z, 1).unwrap();
+
+        assert_eq!(registers.get_flag(RegisterFlags::C), 1);
+        assert_eq!(registers.get_flag(RegisterFlags::H), 1);
+        assert_eq!(registers.get_flag(RegisterFlags::N), 1);
+        assert_eq!(registers.get_flag(RegisterFlags::Z), 1);
     }
 }
