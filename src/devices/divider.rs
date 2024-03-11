@@ -28,7 +28,7 @@ impl Device for Divider {
         }
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
+    fn write(&mut self, addr: u16, _value: u8) -> DataResult<()> {
         match addr {
             0xff04 => {
                 self.counter = 0;

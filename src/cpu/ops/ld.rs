@@ -6,33 +6,42 @@ use crate::{
     },
 };
 
-fn ld_01(gameboy: &mut Gameboy, operands: OperandStructure) -> DataResult<u8> {
+pub fn ld_01(gameboy: &mut Gameboy, operands: OperandStructure) -> DataResult<u8> {
     match operands.operand1_key {
         OperandType::N16 => {
             gameboy.registers.set_register(RegisterNames::BC, operands.operand1_value)?;
             Ok(0)
         }
-        _ => Err("Invalid Operand {} for LD".to_string()),
+        _ => Err("Invalid Operand for LD".to_string()),
     }
 }
 
-fn ld_02(gameboy: &mut Gameboy, _operands: OperandStructure) -> DataResult<u8> {
+pub fn ld_02(gameboy: &mut Gameboy, _operands: OperandStructure) -> DataResult<u8> {
     let value = gameboy.registers.get_register(RegisterNames::A)? as u8;
     let address = gameboy.registers.get_register(RegisterNames::BC)?;
     gameboy.memory.write(address, value);
     Ok(0)
 }
 
+pub fn ld_06(gameboy: &mut Gameboy, operands: OperandStructure) -> DataResult<u8> {
+    match operands.operand1_key {
+        OperandType::N8 => {
+            let value = operands.operand1_value;
+            gameboy.registers.set_register(RegisterNames::B, value)?;
+            Ok(0)
+        }
+        _ => Err("Invalid Operand for LD".to_string()),
+    }
+}
+
+pub fn ld_08(gameboy: &mut Gameboy, operands: OperandStructure) -> DataResult<u8> {
+    let value = gameboy.memory.read(operands.operand1_value);
+    gameboy.registers.set_register(RegisterNames::SP, value as u16)?;
+    Ok(0)
+}
+
 #[cfg(test)]
 mod test {
-    use crate::{
-        app::gameboy::Gameboy,
-        cpu::{
-            op::{OperandStructure, OperandType},
-            registers::RegisterNames,
-        },
-    };
-
     use super::*;
 
     #[test]
@@ -50,12 +59,35 @@ mod test {
     }
 
     #[test]
-    fn test_Ld02() {
+    fn test_ld02() {
         let mut gameboy = Gameboy::create();
         let operands = OperandStructure::create();
         gameboy.registers.set_register(RegisterNames::BC, 1024).unwrap();
         gameboy.registers.set_register(RegisterNames::A, 10).unwrap();
+
         ld_02(&mut gameboy, operands).unwrap();
         assert_eq!(gameboy.memory.read(1024), 10);
+    }
+
+    #[test]
+    fn test_ld06() {
+        let mut gameboy = Gameboy::create();
+        let mut operands = OperandStructure::create();
+        operands.operand1_key = OperandType::N8;
+        operands.operand1_value = 10;
+
+        ld_06(&mut gameboy, operands).unwrap();
+        assert_eq!(gameboy.registers.get_register(RegisterNames::B).unwrap(), 10);
+    }
+
+    #[test]
+    fn test_ld08() {
+        let mut gameboy = Gameboy::create();
+        let mut operands = OperandStructure::create();
+        gameboy.memory.write(10, 10);
+        operands.operand1_value = 10;
+
+        ld_08(&mut gameboy, operands).unwrap();
+        assert_eq!(gameboy.registers.get_register(RegisterNames::SP).unwrap(), 10);
     }
 }

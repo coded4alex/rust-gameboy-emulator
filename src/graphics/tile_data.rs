@@ -1,11 +1,11 @@
 use crate::{app::utils::DataResult, memory::access::Memory};
 
-struct TileData {
+pub struct TileData {
     pub tile_id: u8,
     pub tile_data: [u16; 8],
 }
 
-enum TileType {
+pub enum TileType {
     OBJ,
     BG,
     WIN,
@@ -18,7 +18,6 @@ pub fn get_tile(tile_id: u8, tile_type: TileType, mem: &Memory) -> DataResult<Ti
         TileType::OBJ => get_obj(tile_id, mem),
         TileType::BG => get_bg_win(tile_id, mem, lcdc4),
         TileType::WIN => get_bg_win(tile_id, mem, lcdc4),
-        _ => Err("Invalid tile_type".to_string()),
     }
 }
 

@@ -15,11 +15,11 @@ impl SoundChannel {
 }
 
 impl Device for SoundChannel {
-    fn read(&self, addr: u16) -> DataResult<u8> {
+    fn read(&self, _addr: u16) -> DataResult<u8> {
         Err(String::from("Unimplemented"))
     }
 
-    fn write(&mut self, addr: u16, value: u8) -> DataResult<()> {
+    fn write(&mut self, _addr: u16, _value: u8) -> DataResult<()> {
         Err(String::from("Unimplemented"))
     }
 

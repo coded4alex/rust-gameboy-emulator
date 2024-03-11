@@ -34,11 +34,6 @@ pub fn inc_04(gameboy: &mut Gameboy, _operands: OperandStructure) -> DataResult<
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        app::gameboy::Gameboy,
-        cpu::{op::OperandStructure, registers::RegisterNames},
-    };
-
     use super::*;
 
     #[test]
